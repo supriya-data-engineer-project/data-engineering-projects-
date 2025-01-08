@@ -1,0 +1,60 @@
+self introduction
+
+
+
+currently iam working on a banking based project that is anti money laundering
+
+
+in my current project data was available in multiple sources.
+primarly i had trasactions data,-------------,------------,----------data is available in a traditional sql server RDBMS.
+the server is actually present in local not on the cloud, my task is to migrate the data from local to cloud.
+
+what is the frequency of a migration (ours is a daily job) 
+
+
+>>tell me about your self?
+>>about your project?
+1..what are the day to day activities you are doing in your current project ?
+2..what is your responsibility as a data engineer in your current project?
+3..what are the sources for aml project?
+how we can use jira?
+
+self introduction? 
+
+my name is supriya i have 4+ years of experience in data engineering.
+i worked on end to end data engineering projects starting from data collection to till preparing the data for data scientist and as well as data analyst.
+my responsibilities includes connecting the multiple sources taking the data and cleaning the data using databricks as well as pyspark codes and 
+after doing all kinds of transoformations as per the business logic i push the data into destination systems.
+i have a strong knowledge in pyspark, python, sql, databricks and data factory.
+i also have a strong foundation skills on jira and as well as github.
+currently iam working as an individual contributor, i have been also part of multiple teams as well.
+
+project:
+
+currently iam working for one of the banking project that is anti money laundering(AML).
+this data have multiple data sources like we have customer transaction databases, customer information(KYC), sanction list, regulatory reports,
+and external sources like credit scores.
+we are getting the data in both structured as well as unstructured data formats, unstructured files are json files and text files,
+structured formats are sql server database, sql server datbase as complete transactional information.
+so we start with collecting the data from all the sources by using azure data factory, because the data is available in the local we go for copy activity,
+we move the data into two destinations , one is we move to blob storage and another one is we move to adls gen2.
+we use databricks to connect both sources then we write all the business transformations as per the business need.
+transformations are carried out by medalian architechture.
+it will have bronze, silver, gold layers, we have a sepearte notebooks to write transformation logics.
+in bronze we do all schema validations and in silver will do all kinds of preprocessing stpes(like removing the duplicates, fill null values, fixing the outliers) 
+in gold layer we will do aggigations and everything according to business need.
+post aggrigations in the gold layer notebook it self we push the data into adls gen2.
+we also write data validation , unit testing, all the scripts to validate whether whatever transformation which we have done is correct or not.
+
+
+input_path = '/mnt/bronze/salesLT/Address/Address.parquet'       /*  
+
+df = spark.read.format(parquet).laod(input_path)  
+
+display(df)
+
+
+
+
+
+ 
