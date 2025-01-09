@@ -1,0 +1,111 @@
+1. Data Loading and Initial Transformation:
+Read Data: Use PySpark’s read methods to load data from various sources (e.g., CSV, JSON, Parquet, databases).
+
+
+df = spark.read.csv('path/to/data.csv', header=True, inferSchema=True)
+
+2. Data Cleansing:
+
+Drop Duplicates:
+
+
+df = df.dropDuplicates()
+
+Handle Missing Values:
+
+
+df = df.na.fill({'column_name': 'default_value'})  # Fill missing values
+df = df.dropna(subset=['column_name'])  # Drop rows with missing values
+
+Filter Outliers:
+
+from pyspark.sql.functions import col
+df = df.filter((col('amount') > 0) & (col('amount') < 1000000))  # Example filter
+
+
+3. Data Standardization and Normalization:
+Standardize Formats:
+       
+from pyspark.sql.functions import to_date
+df = df.withColumn('date', to_date(col('date_string'), 'yyyy-MM-dd'))
+
+
+Normalize Numeric Data:
+
+from pyspark.sql.functions import col
+from pyspark.sql.functions import min, max
+
+min_amount = df.select(min(col('amount'))).collect()[0][0]
+max_amount = df.select(max(col('amount'))).collect()[0][0]
+df = df.withColumn('normalized_amount', (col('amount') - min_amount) / (max_amount - min_amount))
+
+
+4. Data Enrichment:
+
+Join with External Data:
+
+external_df = spark.read.csv('path/to/external_data.csv', header=True, inferSchema=True)
+enriched_df = df.join(external_df, df['key'] == external_df['key'], 'left')
+Add Contextual Information:
+
+
+from pyspark.sql.functions import lit
+df = df.withColumn('transaction_type', lit('transfer'))  # Add static information
+5. Feature Engineering:
+Create New Features:
+
+
+from pyspark.sql.functions import when
+df = df.withColumn('is_large_transaction', when(col('amount') > 10000, 1).otherwise(0))
+
+6. Aggregation and Summarization:
+Group By and Aggregate:
+
+
+aggregated_df = df.groupBy('customer_id').agg(
+    sum('amount').alias('total_amount'),
+    count('transaction_id').alias('transaction_count')
+)
+Window Functions for Time-Series Analysis:
+
+
+from pyspark.sql.window import Window
+from pyspark.sql.functions import row_number
+
+windowSpec = Window.partitionBy('customer_id').orderBy('date')
+df = df.withColumn('row_number', row_number().over(windowSpec))
+
+7. Anomaly Detection Preparation:
+Transform Data for Models:
+
+
+from pyspark.ml.feature import VectorAssembler
+
+assembler = VectorAssembler(inputCols=['normalized_amount', 'transaction_count'], outputCol='features')
+feature_df = assembler.transform(df)
+
+Apply Transformations for ML Models:
+
+from pyspark.ml.classification import LogisticRegression
+
+lr = LogisticRegression(featuresCol='features', labelCol='label')
+model = lr.fit(feature_df)
+predictions = model.transform(feature_df)
+
+8. Data Privacy and Security:
+
+Anonymization and Masking:
+
+from pyspark.sql.functions import expr
+df = df.withColumn('masked_account', expr("concat('***', substring(account_number, -4))"))
+
+9. Data Export:
+Write Data to Storage:
+
+df.write.parquet('path/to/output.parquet')
+
+Each of these transformations is tailored to ensure data is accurate, consistent, and ready for analysis or reporting in the context of AML compliance. 
+PySpark provides a scalable way to handle large volumes of data and perform these operations efficiently.
+
+
+
