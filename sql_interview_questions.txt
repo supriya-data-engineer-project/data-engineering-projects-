@@ -294,4 +294,4 @@ select dimention columns, measure columns from table_name GROUP BY CLAUSE HAVING
 
 =======================================================================================
 what is the difference between IS-NULL and COALESCE?
-
+is null is 
