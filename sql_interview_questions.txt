@@ -1,0 +1,297 @@
+SQL questions that are commonly asked in interviews:
+
+1. Write a query to find the second highest salary in a table.
+    select max(salary) second_heighest_salary from Employees where salary < (select max(salary) from Employees);//to find second heighest salary
+	select max(salary) salary from Employees where salary < 5000000
+	select max(salary) salary from Employees where salary < (select max(salary) salary from Employee where salary < 5000000)//to find third heighest salary
+	select * from (select emp_name, salary, DENSERANK() over (ORDER BY salary DESC) as ranking from Employees ) as subquery where ranking = 3;//to find nth heighest salary
+	
+ =============================================================================
+2. Explain the differences between INNER JOIN and OUTER JOIN.
+    INNER JOIN will return only the matching records in both the tables and 
+	OUTER JOIN will return all records in both the tables along with the matching records.
+	LEFT OUTER JOIN will return all the records from left table and matching records with the right table.
+	RIGHT OUTER JOIN will return all the records from the right table and only matching records in the left table.
+	FULL OUTER JOIN Will Return all the records from both the tables.
+	SELF JOIN: table is joined with itself.
+==============================================================================	           
+3. How do you optimize a SQL query?
+    use indexes - Ensure that appropriate indexes are in place for columns used in WHERE, JOIN, ORDER BY clauses. 
+	limit the data returned - only select the columns needed and limit the number of rows returned using LIMIT or TOP.
+	optimize joins - use INNER JOIN instead of OUTER JOIN when possible and use appropriate join conditions. avoid joining on non-indexed columns.	
+	avoid select * (instead of using select* explicitly list the columns needed). 
+==================================================================================	 
+4. Write a query to calculate the running total in a result set.
+    select order_date, sales_amount, SUM(sales_amount) OVER (ORDER BY order_date) as running_total from sales;
+    select SUM(salary) OVER (ORDER BY ID) as running_total from department;
+    select order_date, sales_amount, SUM(sales_amount) OVER (ORDER BY order_date) as running total from sales;	
+	SELECT  employee_id, department_id, SUM (salary) OVER ( ORDER BY department_id) AS Running_total FROM Employees;
+====================================================================================================================
+5. Explain the purpose of the HAVING clause in SQL.
+    it is used to apply conditions to groups of rows ratherthan individual rows.
+	having clause is used for restricting results of grouping sets.
+	having clause filter the results after grouping and aggrigation have taken.
+	select dept_no, SUM(sal) from emp group by dept_no having SUM(sal) > 10000;
+ ==================================================================================      
+6. Describe the differences between UNION and UNION ALL.
+    union will not allow duplicate values but union all will allow duplicate values.
+	
+===========================================================================================	
+7. Write a query to find duplicate rows in a table.
+    select Customer_ID, count(*) duplicate_count from Orders group by Customer_ID having count(*) > 1;
+=========================================================================================================	
+8. What is the significance of the INDEX in a database? what is the use of index?
+    significance of indexes lies in their ability to accelerate the retrieval of data by providing a quick access path to the rows in a table.
+======================================================================================================================================	
+9. Explain the ACID properties in the context of database transactions.
+      these ACID properties ensure that database transactions are reliable, consistent, and durable even in the presence of failure or concurrent access by multiple users.
+	       this reliability is crucial for maintaining data integrity and ensuring the correctness of database operations.
+		   
+    Atomicity : Automicity ensures that a transaction is treated as a single unit of work. which means that either all the operations within the transaction are completed
+	            successfully, or non of them are. if any part of transaction failes, the entire transaction is rolled back to its initial state.
+				
+	Consistency: consistency guarantees that the database remains in a valid state before and after the transaction. this means that the execution of transaction must bring
+	             the database from one state to another state. constraints, such as foreign key constraint and check constraint, are maintained to ensure data integrity.
+				 
+	Isolation : isolation ensures that transactions are executed in a way that they appear to be independent of each other. even if multiple transactions are executing concurrently,
+	            each transaction should operate on a consistent view of database. isolation prevents interface between transactions and ensures that their results are consistent.
+				
+	Durability: durability ensures that once a transaction is committed, its changes are permanently saved and persisted(continue). even in the event of a system failure.
+                this means that the changes made by committed transactions survive system crashes or power failures and are not lost.	
+=====================================================================================================================================	
+10. How can you implement pagination in SQL?
+         pagination is a process is used to divide a large data into small descrete page.
+		 it refers to fetch less number of recoreds.
+    Pagination in sql can be implemented using offset and fetch next clauses.
+	offset: is used to skip the number of rows.
+	fetch next: is used to fetch the number of rows required in a table.
+	
+	   
+	EXAMPLES: select * from products order by product_id offset 5 rows fetch next 6 rows;
+==================================================================================================	
+	          
+11. Write a query to pivot a table.
+    SELECT *
+FROM ( 
+    SELECT product_id, month, amount
+    FROM sales
+) AS source_table
+PIVOT (
+    SUM(amount)
+    FOR month IN ('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
+) AS pivot_table;
+=======================================================================================================
+12. Explain the concept of normalization in databases.
+    
+====================================================================================================
+13. How do you handle NULL values in SQL?
+    1..we can use IS NULL clause, Ex: select * from table_name WHERE column_name IS NULL;
+	2..can use IS NOT NULL clause , Ex: select * from table_name WHERE column_name IS NOT NULL;
+	3..can use IF NULL clause, Ex: select IFNULL(column_name, default_value) from table_name;
+	4..can use NULLIF clause,  Ex: select NULLIF(column_name, 'specific_value') from table_name;
+============================================================================================================	
+
+14. Write a query to calculate the median of a set of numbers.
+    
+=================================================================================================
+15. Describe the process of creating and using stored procedures.
+    1..creating a stored procedure by using create procedure statement by procedure name 
+	   create procedure GetEmployeeByID
+	   @EmployeeID int
+	   as 
+	   begin
+	   select * from Employees where employee_id = @EmployeeID;
+	   end;
+	2..executing procedure
+	   exec GetEmployeeByID;
+=========================================================================================
+16. What is a correlated subquery, and how does it differ from a regular subquery?
+    Regular subqueries are executed first, and their results are used by the outer query.
+	correlated subqueries are executed for each row of the outer query , and their results are used to filter or modify the result of the outer query.
+	due to their nature, correlated subqueries can be less efficient, espetially when dealing with the large datasets.
+===================================================================================================================	
+	
+17. Write a query to find the nth highest salary in a table.
+     
+=======================================================================================================    
+18. Explain the differences between clustered and non-clustered indexes.
+     the main difference between clustered and non clustered index is how data is physically stored and organized.
+	 clustered indexes physically rearrange the table's data based on the index key, : indexes entires are direct search for data entries : the order of data is sort order.
+	 while non clustered indexes create a seperate structure that points to the data rows.
+	 
+==========================================================================================================
+19. How can you prevent SQL injection in your queries?
+=====================================================================================================   
+20. Write a query to find the most recent record in a table.
+    by using order by clause desc order 
+	ex: select first_name, last_name from Employees order by employee_id desc;
+============================================================================================	
+21. Describe the purpose of the GROUP BY clause in SQL.
+     group by clause in sql is used to group the rows that have the same values into summary rows, like summarizing and counting the data,
+	 typically when using aggrigate functions sum(), count(), avg(), min(), max().
+	 it helps in summarizing information and performing operations on groups of rows rather than individual rows.
+	 
+==============================================================================================================================
+22. What is the difference between TRUNCATE and DELETE statements?
+     delete:  using delete command we can delete entire data and we can delete a particular data by using where condition.
+             if you delete it we can restore the data but with truncate we cann't restore the data.
+            when you do a truncate it will not allow to delete one particular data or a single data it will delete entire data but the structure ramins the same and the columns names are remains the same
+ drop: it will delete entire data with column names and table itself.
+           whenever the table is not completely required that time will do drop commmand.
+it will delete permanently deleted or lost from a database and they cann't be roll back
+
+   the table has no more used it now then we go for drop command
+==============================================================================================
+
+23. Write a query to find the longest consecutive sequence in a table.
+     assuming we have a table 'sequences' with column name 'number', we can use the following query to find the longest consecutive sequence
+	 
+	 WITH RECURSIVE consecutives as ( select number,
+	                                         number - ROW_NUMBER() OVER (order by number) as grp 
+											 from sequences
+		                             ),
+									 consecutive_counts as (
+									 select count(*) as consecutive_count,
+									        MIN(number) as start_number,
+											MAX(number) as end_number
+									    from consecutives
+                                      group by grp
+                                     )
+                                     select consecutive_count,
+                                             start_number,
+                                             end_number
+                                          from consecutive_counts
+                                      order by consecutive_count desc
+                                      limit 1;									  
+=======================================================================================================
+24. Explain the concept of foreign keys and their importance.
+      foreign key establish a relationship between two tables. 
+	  foreign key column in one table that referenced by primary key column in another table.
+	  this relationship between two tables is typically used to enforce referential integrity, ensuring that data remains consistent across related tables.
+ why they are important:
+     1.relationship establishment
+     2.maintaining the referential integrity
+     3.data consistency
+     4.cascade actions
+     5.query optimization	 
+=============================================================================================================
+
+25. How can you improve the performance of a slow-performing query?
+    we have several strategies 
+	1.index optimization
+	2.query rewriting
+	3.data normalization
+	4.optimize joins
+	5.limit result set
+	6.partioning
+	
+=========================================================================================
+26. Write a query to calculate the difference between two dates.
+    select datdiff(end_date, start_date) as date_difference from table_name;
+	
+===========================================================================================
+27. Describe the use of the CASE statement in SQL.
+    case statement is used for conditional logic within queries.
+	it allows to perform different actions based on the specified conditions.
+ex: select CASE WHEN age < 18 then 'Minor' 
+                ELSE 'Adult'
+			END AS age_category
+		from users;
+		
+ex: select 
+      department,
+	  SUM(CASE WHEN status = 'Completed' THEN 1 ELSE 0 END) AS completed_task,
+	  SUM(CASE WHEN status = 'Pending' THEN 1 ELSE 0 END) AS pending_task
+	  FROM 
+	   tasks
+	  GROUP BY 
+	  department;
+============================================================================================	
+
+28. How do you handle large datasets in SQL?
+    we can handle large datasets by using indexing, partioning, optimized queries, data normalization and denormalization, use of temperory tables or CTEs,
+	query optimization techniques, batch processing, vertical and horizontal scalling, caching, regular maintenance
+	1. indexing: proper indexing on columns used in filtering, joining, and sorting operations can significantly improve query performance.
+	             analyze query patterns and create indexes accordingly.
+    2.Partitioning: Partition large data tables into smaler.
+=================================================================================================
+29. Write a query to transpose rows into columns.
+    
+    
+=======================================================================================================
+30. Explain the purpose of the ROW_NUMBER() function in SQL.
+==============================================================================
+31.what is view? 
+   A view is a stored SQL query. 
+   Every time a view is used, it executes its stored query and creates a result set consisting of rows and columns.
+   An SQL view is called a virtual table because it does not store the rows and columns on the disk like a concrete table. Instead, it just contains the SQL query.
+   View is a kind of virtual tables, a view also has rows and columns. we can create view by selecting fields from one or more tables present in the database.
+   A view either can have all the rows of a table or specific rows based on the certain conditions.
+   view allows you to create a virtual table based on an SQL query referring to other tables in the database.
+   A view stores an SQL query that is executed whenever you refer to the view.
+   This is a convenient way to get the desired data because it is easier to run a query stored in a view than to type a query from scratch.
+   it is handy to create views to store complex queries.
+   You can use a view as if it were a table storing the data returned by a complex query.
+Creating a view :   
+   Exxample: CREATE VIEW EntertainmentView AS
+             SELECT Name AS AllEntertainmentPlaces
+             FROM Theater
+             UNION
+             SELECT Name
+             FROM Oper
+             UNION
+             SELECT Name
+             FROM Cinema;
+			 
+    SELECT *FROM EntertainmentView;
+============================================================================	
+32.what is metrelize view? 
+   
+
+33.what is table? 
+   table is the simple data storage with rows and columns.
+
+34.difference between view and table?
+
+35.difference between view and metrelize?
+
+36.can we import a metrelize view in powerbi?
+====================================================================================
+
+37.can we write custom sql in powerbi?(stored procedure, complex joins: joining a multiple table through custom sql)
+  yes, we can write
+1.first go to power query editor and make sure you connected OLE DB connection and then start to connect database and select the table from the database
+2.next go to advanced editor option and we can write the query here 
+   oledb.query function is available in result query in the advanced editor 
+  inside ("connection string as any", "query as text")
+let
+   source = oledb.Datasource("connnection string")// this is also not neede because we can mention connection string in the result clause.
+   Result = oledb.query("connection string","select * from table_name where columnname='value' ")
+in
+   Result
+   
+   this result function is included in the output, 
+
+3.next click on done 
+4.and again it will ask edit permission click on that to run the query.
+5.after that it will return the records based on writing the query.
+
+38.What is the difference between a view and a stored procedure?
+
+A view references one or more existing database tables or other views. 
+It is the snap shot of the database whereas a stored procedure is a group of Transact-SQL statements compiled into a single execution plan.
+ View is simple showcasing data stored in the database tables whereas a stored procedure is a group of statements that can be executed.
+ 
+-------------------------------------------------------------------------------------------------------------------------------------------
+ 
+RULES FOR WRITING QUERY OF GROUP BY CLAUSE WITH HAVING, WHERE CLAUSES:
+ ------------------------------------------------------------
+WHERE CLAUSE WITH GROUP BY: 
+select dimention columns, measures columns from table_name WHERE CLAUSE (conditions) GROUP BY CLAUSE Column names ORDER BY CLAUSE column names;
+
+HAVING CLAUSE WITH GROUP BY:
+select dimention columns, measure columns from table_name GROUP BY CLAUSE HAVING CLAUSE Aggrigate functions;
+
+=======================================================================================
+what is the difference between IS-NULL and COALESCE?
+
