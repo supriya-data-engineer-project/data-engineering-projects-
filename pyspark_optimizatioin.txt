@@ -1,0 +1,23 @@
+
+
+Any specific Techniques you have used to optimized the pyspark jobs ?
+
+yes, To optimize a pyspark job first of all we need to make sure that the data is catched.
+by catching i mean, we have to write multiple dataframes. so we need to make sure that the full table scan is not done. 
+you first have to filter the data and then perform the aggrigations. so that the data is filter as much as possible and then the aggrigations are performed.
+now in situations of joins right we can go ahead and do the broadcast join and we can go ahead and do the shuffle hash join instead of merge join.
+so by broadcast join i mean when we have large table and we have certain small tables dimention tables then they can actually copied to each of these executors instead of 
+partitioning. so this is really helps in optimization.
+
+
+what ar ethe challenges you have faced in your project?
+
+challenges in the sence while we are tranformaing the data 
+
+
+
+
+
+
+
+whats your contribution in your project?
