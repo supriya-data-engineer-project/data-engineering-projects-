@@ -1,0 +1,162 @@
+what is shuffling?
+ shuffling is the process of redistributing the data across a cluster of machines.
+ the shuffling happen to process the data parallel, to group the data by key, to combine or compare the data from different partitions and to sort the data.
+ 
+
+we use pyspark for the transformations here and apart from that i have also worked on the dashboards using power bi. so i have the data visualization knowledge as well.
+this is my current skill set.
+challenges in the sence while we are transforming the data we are some times get the the data type mismatcherer. if the schema drifting is not enabled then we are not able 
+to load the data into our target sometime.
+there are some situations we want to create a table, i personally forget that it is already present in the my hive table, so its gives me an error of the table is already present
+like that.
+so these are the challenges i have faced so far.
+
+what is your contribution in your project?
+
+so iam involved in the creation of the gold layers in our azure data factory. so basically we receive files. mostly we receive file in our data source team in the format of 
+csv. we have to do the required tranformations and then store it into our delta tables in the parquet format. iam mostly involved into the development part.
+we basically mount the adls into our databricks. and we try to first filter out the data that is by removing duplicates, by removing the null values. so as to just apply the 
+transformations into required amount of data. and once the transformations are written we call out the actions then we do the data validation and unit testing, we use pytest 
+here for unit testing. then we connect these notebooks to each other try to orchestrate them. we have 4 to 5 developers here each of us have different workspace and different 
+notebooks which all are connected. so we write our transformations. we get the requirement from our lead engineers obviously. and then we write the transformation logic.
+we actually write the data in the form of delta. i mostly worked on the structured data here. for a brief period i worked with semi structured data we used mongodb there.
+so we had the data in the form of key value pair. so that was also our source for a particular use case. 
+i worked on csv then i worked on sql tables  and json data. we mostly store it into parquet because that is the requirement. it actually uses compression it will reduce the 
+space and it also has the metadata information. by default it will get stored in snapy compression. it actually make sure that the partitions are the splitteable in the next stpes
+
+what you stand by wide and narrow transformation?
+
+so transformations, we mostly work on the dataframes right, and these dataframes are the immutable, we can't really try to perform any DML operations in just one specific 
+dataframe so we need to create multiple dataframes out of it. we create the views, or the tables, you know and then write the transformations.
+now coming about the type of transformations. it is divided into wide and narrow based on the shuffling, so the data gets stores into the cores in the form of partitions of the 
+executers. when the data is shuffle between these two partitions or the exectors that is when we call it as a wide transformaton and it comes with cost because of the resource
+utilization, so for narrow transformations are those in which the data shuffling is not involved. we have filter, we have a union we have a map, all these are narrow 
+tranformations.  for wide tranformations we have joins we have groupby, these two i have mostly used in my project ya these are the wide transformaitons. 
+
+what is lazy ivaluation in spark?
+  so, spark works on the concept of lazy ivaluation, by that it means in our notebooks we have a tranformations and actions, so what spark will do it will try to first 
+  compile all of these transformations and see the logics are synactically correct or not based on the schema catalog and it will try to create a unresolved logical plan, 
+  which will be having the role based and cost based the catalist optimizer also comes into place here and then it will try to for example we have written select all the employees 
+  from a table where department is this now it will check if i want to filter out the department first or i want to filter out employee like on which basis i should, so it will
+  create many logical plans and it will see based on the given condition based on the cost which more optimal then it will create a physical plan so all of these information is 
+  present in the DAG so whenever the transformations are completed so then the actions will be called that is when the spark will go ahead and try to put all of these into you know
+  try to give the required results. so it does not actually performs the operations until and unless an action is called. 
+  
+what is falut tolerance in spark and map produce and how it works?
+  so the dag, one of the feature of DAG is it will provide the fault tolerance, meaning so dag is basically you know it will have the graphical representation 
+  of the compute that has been taking all the operations that have has been taking place so for example due to some system failure or something we have lost our data one of the 
+  partitions it can go ahead and create that particular partition based on the information that has been already present in there because it has all these steps on how that
+  particular partion was been created. so that is how it provides falut tolerance.
+ map produce it actually write the data back to the disk and input and ouput operations takes place from the disk and it mostly used for the large scale batch data processing but 
+ spark gets overhead in that particular situation because here the computation mostly takes place in the memory. it actually store and process the data in distributed way in the memory.
+
+client mode and cluster mode?
+ the driver that is present in the same system. but the cluster mode the driver runs in one of worked nodes so it is not present in the same system so it can be present in the
+ any of the distributed cluster of machines. 
+
+what are the broadcast joins in spark?
+ we have our data stored in the partitions, we have a fact table and we have for example we have a fact and dimention tables now the fact table stored in each of these partitions
+ lets say by one country column, now we have one dimention table in place, in dimention table lets say it is less than 10 mb data size so we can actually store this file this 
+ dim table to each of our executers so that whenever we try to write our transformation or whenever we try to process the data it does not have to go and avoid reshuffling of the
+ data we can actually store the all these partitions to get the results faster.
+ 
+what is memory management?
+ memory in the sence, spark consists of driver then we have the wroker node and which will have the executors and each executors has the cores in which the parition data get 
+ stores. we also have a cluster manager which will take care of all the resources like what is the status of the partitions if they are working properly or not so all those
+ information will be with the cluster manager. now in the memory management we have user memory, we have the unified memory which consisting of execution plus storage memory.
+ and also have some very neglegible amount of memory which is stored for the spark internals right for example we have 1GB of data so 40% will be used by user memory which will
+ actually be having the you know information about the DML operations that we are performing that the code we are writing. in the 60% will come the storage and execution which 
+ will be having the cache, joins and other information and then we also have on heap and off heap memory. so if you want to catch the data initially when we try to mount our data
+ we actually cache it so that because we have to use various dataframes. so we want to make sure that full table scan is not happening. and recomputaion is not happening although 
+ spark stores everthing in memory. but we want to make sure that it does have to do full scan everytime so that is why make sure that cache is enabled. and we initially
+ make sure that duplicates are dropped and null values are removed so as to reduce the amount of size and apply the transformations in to that particular level of data.
+ cache is where in our off heap memory is used so that is beccause we do not have garbage collector or any JVM API running behind it. so it is only present in our onheap 
+ that gives an 
+ overhead but then it is a bit slower so it is used only when the onheap memory is not in place. 
+ 
+if your working in a live production and where you got an error saying that out of memory so what are the approach you will have to debug that?
+
+ out of memory can happen due to multiple reasons first we need to go to the spark UI and check for the possible errors. and we might go and check which particular stage or 
+which particular task it is getting failed. you know if there is any data skewness for example we partitioned the data based on the region over time what is happened is in 
+one particular region lot of data has been acumulated so other three or other four taking very minimal time to get executed but this the one which has lot of data it is the 
+only one which is taking lot of time so we can go ahead and repartition the data  or you know we can use bucketing  so we first have try and understand what exact errors are there
+based on that if it is data skewness or if it is the partition strategy or if it is the join strategy or sometimes may be we need to use broadcast join if smaller tables are present
+or we need to use the shuffle hash join instead of shuffle merge join it depends on the scenario. accordingly we need to debug it.
+
+what is data skewness?
+ so data skewness is something if lot of data gets accumulated into just one particular partition and in the other partitions the data amount is very low then it is called data 
+ skewness.
+ 
+what is catching?
+  we make sure that cache our data after it is mounted because it reduces the time for recomputation. so it make sure that the for example we have a product table now in 
+ the next steps we want to filter the data or we want to add some new columns or we want to drop the duplicates whatever it is we are doing that only with that particular table 
+ so we cache this particular at first dataframe so it does not have to go back to the desk and see where exaclty the data is so 
+ basically caching is the way of persist we have various storage level i mean it is just one of the type of persist in just that it is getting executed in memory and not 
+ writing it back to the disk.
+  
+how do you test your spark code?
+  we do unit testing here once our transformation logics are in place we take some mock data and we see what is the actual output and what is the expected output that we are getting 
+ and we try to match it so we take a limitted amount of data in that particular scenario so which we call as mock data and the framework that we use is pytest. 
+ 
+what are the performance tuning technique that you use to tune your spark jobs?
+  performance tuning technique we can use we can see make sure that partition strategy is applied correctly. if it is not we can go ahead and follow the repartition,or we can 
+  do bucketing. and then we can also use coaleasc and also we should it always best practice to catch the data before applying any transformation. removing the duplicates and 
+  removing the nulls ya reducing the volume of the data before applying the actual transformation is the way to tune the performance.
+  
+what is coaleasc and when we should use it?
+  i have two executors suppose in one executor i have three partitions and in my other executors i have also three partitions now if i do repartitioning there might be 
+  shuffling the data between these two partition. but coalesce there no shuffle of data it tries to just merge the partitions and make it one based on the number that we provide.
+  so that is the major difference, shuffling is not taken into picture while perform coalesce.
+  
+in which scenario we should go for repartition and which scenario we should go for coalesce?
+   it depends on the usecase you know if we have certain data which not present in particular partition obviously we can go and do repartition it because we want to aggregate those
+   data into one particular partition itself so if the data is present in that partition then we can go ahead and coalesce it.
+   
+what are the managed and external tables?
+   so the managed or internal tables are the ones whihc will have like the table is present in inside our hive so all the metadata all the data is managed by the hive itself.
+   if you delete this managed table it will delete all the meatadata and everything  will be deleted because the table is present in inside our hive table.
+ but if you do the samething for external table only metadata will be deleted but the data is still present because the data is present into some external location.
+  when we try to read this external file we actually point the location where are my external table is present.
+  
+can you tell usecase where we can use those (what are the managed and external tables)?
+ i have personally not used it so when i jsut all throughout my experience i have worked in spark and iam conceptually aware of hadoop and hive. but never got any chance to
+ work on it.
+ 
+how did you deploy your spark code?
+  we deploy it into our using cicd pipelines or using basically we orchestrating using adf here so we have a various activities, we have the source, we have for each activity, 
+  and copy activity then which is connected to our notebooks activity and then again it is connected to our stored procedure activity. for the code testing if your asking 
+  we make sure that deploy it into azure devops for code reviews so there all of us have a different branches where is we get our code reviews once it is done then it is push 
+to this into the pipelines. 
+
+how do you schedule your workflow ?
+
+so we do not use workflow here. once our code is converted into artifact then we use the pipelines in our azure data factory itself. so we have a notebook activity in our 
+azure data factory so we will go ahead and create the data sets first and then we connect it to copy or foreach activity and we have stored procedure activity and it is connected
+to this particular pipeline. 
+
+sometimes i worked data movement between the containers using the pipelines. 
+
+what is shuffling and why we need to think of minimizing it?
+ shuffling is something that the data is shuffle across the partitions because the data is shuffle between the partitions it always comes with the cost because the resource 
+ are the utilized. we need to make sure that apply the correct transformation logic to aggregate the data into the correct partitions so as to avoid the partitions
+ 
+what are the different types of joins in spark?
+ we have shuffle merge join we have a shuffle hash join, we have sort merge join then we have broadcast join which is used for joining large and small tables.
+ ya these are the joins we have a specifically in spark. apart from that we have lefft join, right join, outer join so.
+
+can you give any use case where you can use these one of join?
+  we have two data sources and we want to data to be sorted and then it will be merged sorted based on particular key so we can use sort merge join.
+  if we have very large table and we have very small table and we can join these tables using broadcast join.
+
+what is the spark session and how it initialize it?
+  whenever we want to write transformations or actions we need to initialize spark. so we will call out, we write in the form of spark = sparksession.builder.getorcreate this
+  will actually initialize it and then go ahead do it and read our files and follow subsequent transformations in there. we also need to import the function types the spark
+  session first of all so from pyspark. sql and then pyspark. functions. sql you can import for example if you want to define a schema before the data that we are having
+  b
+  
+
+ 
+
+
+ 
+ 
