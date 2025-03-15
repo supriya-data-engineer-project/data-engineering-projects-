@@ -1,0 +1,54 @@
+WHAT IS DIFFERENCE BETWEEN TRUNCATE , DELETE AND DROP ?
+delete:  using delete command we can delete entire data and we can delete a particular data by using where condition.
+             if you delete it we can restore the data but with truncate we cann't restore the data.
+            when you do a truncate it will not allow to delete one particular data or a single data it will delete entire data but the structure ramins the same and the columns names are remains the same
+ drop: it will delete entire data with column names and table itself.
+           whenever the table is not completely required that time will do drop commmand.
+it will delete permanently deleted or lost from a database and they cann't be roll back
+
+   the table has no more used it now then we go for drop command
+
+WHAT ARE DDL COMMANDS DML COMMANDS
+DDL(Data Definition Language) : create, alter, drop, truncate, rename
+DML(Data Manipulation Language): insert, update, delete
+DRL(Data Retrieval Language): select
+TCL(Transaction Control Language): commit, rollback, savepoint
+DCL(Data Control Language): grant, revoke
+
+WHAT ARE CONSTRAINTS
+ primary key
+foriegn key
+not null
+unique
+
+DIFFERENCE BETWEEN FOREGIN KEY AND PRIMARY KEY
+
+DIFFERENCE BETWEEN NULL AND UNIQUE
+WHAT IS JOINT AND  2 TYPES OF JOINTS IN SQL
+it is used to combine the data two different tables or morethan two tables also there is no limitations to join the tables
+
+
+WHAT IS SELF JOIN ,CROSS JOIN 
+ what command is used to dispaly a unique values of a data
+we use distinct command 
+ what is group by when it is used
+ 
+ DISTINCT: the distinct statement is used to display a different values of data.
+
+
+when to use the conditional statements and operater ?
+
+there are  5 years of data is available in sql 9there are around 20 or 3000000 of requirement but i need to see last one year data olny
+
+
+i want to see that last one year data only
+
+select * from Employees;
+select max(salary) second_heighest_salary from Employees where salary < (select max(salary) from Employees);
+
+select * from Orders where Region='Central' and [Ship Mode]='Standard Class';
+
+
+
+
+
