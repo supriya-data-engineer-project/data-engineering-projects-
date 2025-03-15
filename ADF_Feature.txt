@@ -1,0 +1,15 @@
+what is top 5 features of  ADF?
+
+it is no coding platform we can create pipeline. without coding we can create entire pipeline this is main feature of ADF.
+
+it have inbuild connectors that will integrate easily that is another advantage.
+
+scheduling the jobs
+
+integrating with notebooks. we can write complex transformation and then we can integrate with all the across notebooks and create this entire pipeline.
+
+we have good monitoring framework to understand where issues are there and logs everything we get that is another advantage
+
+adf have inbuilt connectors which actually imoroves the development faster.
+it provides a robost framework for end to end data pipeline so that i can create transform and upload the data.
+it help us to support integrating with the notebooks this actually enables write a complex transformations and integrate dirctly flow itself.
