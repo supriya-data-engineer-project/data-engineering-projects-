@@ -84,13 +84,12 @@ based on that if it is data skewness or if it is the partition strategy or if it
 or we need to use the shuffle hash join instead of shuffle merge join it depends on the scenario. accordingly we need to debug it.
 
 10.what is data skewness?
- so data skewness is something if lot of data gets accumulated into just one particular partition and in the other partitions the data amount is very low then it is called data 
- skewness.
+ so data skewness is something if lot of data gets accumulated into just one particular partition and in the other partitions the data amount is very low then it is called data skewness.
  
 11.what is catching?
   we make sure that cache our data after it is mounted because it reduces the time for recomputation. so it make sure that the for example we have a product table now in 
  the next steps we want to filter the data or we want to add some new columns or we want to drop the duplicates whatever it is we are doing that only with that particular table 
- so we cache this particular at first dataframe so it does not have to go back to the desk and see where exaclty the data is so 
+ so we cache this particular at first dataframe so it does not have to go back to the disk and see where exaclty the data is so 
  basically caching is the way of persist we have various storage level i mean it is just one of the type of persist in just that it is getting executed in memory and not 
  writing it back to the disk.
   
@@ -118,7 +117,7 @@ or we need to use the shuffle hash join instead of shuffle merge join it depends
  but if you do the samething for external table only metadata will be deleted but the data is still present because the data is present into some external location.
   when we try to read this external file we actually point the location where are my external table is present.
   
-17.can you tell usecase where we can use those (what are the managed and external tables)?
+17.can you tell use case where we can use those (what are the managed and external tables)?
  i have personally not used it so when i jsut all throughout my experience i have worked in spark and iam conceptually aware of hadoop and hive. but never got any chance to
  work on it.
  
