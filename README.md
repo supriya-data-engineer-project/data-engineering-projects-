@@ -1,2 +1,2 @@
-# data-engineering-projects-
+# data-engineering-projects
 available data engineering project details 
