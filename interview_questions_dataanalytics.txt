@@ -1,0 +1,25 @@
+what is the primary key and foreign key ?
+   primary key is a combination of unique and not null constraints. 
+
+what is the difference between delete, truncate, drop?   
+  truncate :     truncate delete the entire data but not delete the columns and once data got deleted from the table we can't undo the data 
+ delete  :    we can undo the data once we delete, 
+drop : it will delete the entire data with coluns also and we can't undo the data
+
+what is the difference between a where condition and having?
+
+what is subquery?
+query within a query 
+
+what is the difference between rank and dencsrank?
+
+what is differnce between union and union all? what is the minimum requiremnet for the union?
+     i)union will not accept the duplicate values but union all will accept the duplicate values also
+    ii)joins will not require a same column name and same data type it will add the data in a column name
+   iii)union does require a same column name and same datatype, it will add the data in the row wise
+    iv)join happens with one or more table with the help of pk and fk 
+    union happens within the same table(adding the data within the same table)
+what is the difference between powerbi and tablue?
+what is the components of powerbi?
+what is the building blocks of powerbi?
+
